@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container" id="signupFormContainer">
+    <h1>Signup</h1>
+    <form action="/signup" method="post" id="signupForm">
+
+    <label for="signup-firstname">First Name:</label>
+    <input type="text" id="signup-firstname" name="first_name" required>
+        
+    <label for="signup-lastname">Last Name:</label>
+    <input type="text" id="signup-lastname" name="last_name" required>
+    
+    <label for="signup-email">Email Address:</label>
+    <input type="email" id="signup-email" name="email" required>
+    
+    <label for="signup-password">Password:</label>
+    
+    <input type="password" id="signup-password" name="password" required>
+    
+    <button type="submit">Register</button>
+    </form>
+    <div class="toggle-btn">
+      <a href="#" onclick="toggleForm('loginFormContainer')">Login</a>
+    </div>
+  </div>
+
+  <script>
+    function toggleForm(formId) {
+      document.getElementById('loginFormContainer').style.display = formId === 'loginFormContainer' ? 'block' : 'none';
+      document.getElementById('signupFormContainer').style.display = formId === 'signupFormContainer' ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
