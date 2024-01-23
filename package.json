@@ -1,0 +1,21 @@
+{
+    "name": "cognitive-services-app",
+    "version": "1.0.0",
+    "description": "Cognitive Services All in One Web App",
+    "main": "index.js",
+    "scripts": {
+      "start": "node server.js", // Update with your main server file
+      "dev": "nodemon server.js", // For development using nodemon
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": ["cognitive", "services", "web app"],
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {
+      "express": "^4.17.1", // Web framework for Node.js
+      "body-parser": "^1.19.0", // Middleware for parsing request bodies
+      "nodemon": "^2.0.12", // Utility to automatically restart your server during development
+      // Add other dependencies as needed
+    }
+  }
+  
