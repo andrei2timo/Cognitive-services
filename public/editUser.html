@@ -21,11 +21,8 @@
       <label for="edit-email">Email Address:</label>
       <input type="email" id="edit-email" name="edit_email" required>
 
-      <label for="edit-role">User Role:</label>
-      <select id="edit-role" name="edit_role" required>
-        <option value="admin">Admin</option>
-        <option value="regularUser">Regular User</option> <!-- Update the value here -->
-      </select>
+      <label for="edit-new-email">New Email Address:</label>
+      <input type="email" id="edit-new-email" name="edit_new_email" required>
 
       <button type="button" onclick="submitEditUserForm()">Save Changes</button>
     </form>
@@ -39,7 +36,7 @@
         first_name: document.getElementById('edit-firstname').value,
         last_name: document.getElementById('edit-lastname').value,
         email: document.getElementById('edit-email').value,
-        role: document.getElementById('edit-role').value,
+        new_email: document.getElementById('edit-new-email').value,
       };
       console.log(editedUser);
       
