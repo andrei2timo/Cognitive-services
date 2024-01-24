@@ -25,6 +25,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/images', express.static('images'));
 
+// Logout endpoint
+app.get('/logout', (req, res) => {
+  // Perform logout actions here (e.g., destroy session, clear cookies, etc.)
+
+  // Redirect to the main page
+  res.redirect('/');
+});
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
@@ -119,16 +127,16 @@ app.post('/api/editUser', (req, res) => {
 
   req.on('end', () => {
     try {
-      const { first_name, last_name, new_email, role } = JSON.parse(rawData);
+      const { first_name, last_name, email, new_email } = JSON.parse(rawData);
 
       // Log the received edit request
-      console.log('Received edit request:', { first_name, last_name, new_email, role });
+      console.log('Received edit request:', { first_name, last_name, email, new_email });
 
       // Update the user's information including the email address
-      const sql = 'UPDATE users SET first_name = ?, last_name = ?, email = ?, role = ? WHERE email = ?';
-      console.log('SQL Statement:', sql, 'Values:', [first_name, last_name, new_email, role, new_email]);
+      const sql = 'UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE email = ?';
+      console.log('SQL Statement:', sql, 'Values:', [first_name, last_name, new_email, email]);
 
-      connection.query(sql, [first_name, last_name, new_email, role, new_email], (err, result) => {
+      connection.query(sql, [first_name, last_name, new_email, email], (err, result) => {
         if (err) {
           console.error('Error updating user:', err);
           res.status(500).json({ success: false, error: 'Internal Server Error' });
@@ -136,7 +144,7 @@ app.post('/api/editUser', (req, res) => {
         }
 
         if (result.affectedRows === 0) {
-          console.error('No user found with the provided email:', new_email);
+          console.error('No user found with the provided email:', email);
           res.status(404).json({ success: false, error: 'User not found' });
           return;
         }
@@ -149,8 +157,6 @@ app.post('/api/editUser', (req, res) => {
     }
   });
 });
-
-
 
 
 
