@@ -1,0 +1,66 @@
+<!-- userOptions.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Options</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome, User!</h1>
+    <div class="tabs">
+      <div class="tab active" id="editTab">
+        <h2>Speech Services</h2>
+        <div class="input-group">
+          <label for="languageInput">Language Input:</label>
+          <input type="text" id="languageInput" placeholder="Type your text" class="larger-input">
+        </div>
+        <div class="language-selectors">
+          <label for="selectInputLanguage">Select Input Language:</label>
+          <select id="selectInputLanguage">
+            <!-- Add language options dynamically based on your requirements -->
+            <option value="english">English</option>
+            <option value="spanish">Spanish</option>
+            <!-- Add more languages as needed -->
+          </select>
+        </div>
+        <div class="output-group">
+          <label for="languageOutput">Translated Output:</label>
+          <input type="text" id="languageOutput" placeholder="Translated text" class="larger-input">
+        </div>
+        <div class="language-selectors">
+          <label for="selectOutputLanguage">Select Output Language:</label>
+          <select id="selectOutputLanguage">
+            <!-- Add language options dynamically based on your requirements -->
+            <option value="french">French</option>
+            <option value="german">German</option>
+            <!-- Add more languages as needed -->
+          </select>
+        </div>
+        <div class="buttons">
+          <button onclick="pronunciationButtonClick()">Pronunciation</button>
+          <button onclick="translationButtonClick()">Translation</button>
+        </div>
+      </div>
+      <!-- Add another tab if needed -->
+      <!-- <div class="tab" id="otherTab">
+        ... (similar structure)
+      </div> -->
+    </div>
+    <a href="/">Logout</a>
+  </div>
+  <script>
+    function pronunciationButtonClick() {
+      // Add logic for pronunciation button click
+      alert('Pronunciation clicked!');
+    }
+
+    function translationButtonClick() {
+      // Add logic for translation button click
+      alert('Translation clicked!');
+    }
+  </script>
+</body>
+</html>
