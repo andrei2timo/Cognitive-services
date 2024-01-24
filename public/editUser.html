@@ -1,0 +1,72 @@
+<!-- editUser.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit User</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Edit User</h2>
+    <form id="editUserForm">
+      <!-- Edit user form fields go here -->
+      <label for="edit-firstname">First Name:</label>
+      <input type="text" id="edit-firstname" name="edit_first_name" required>
+
+      <label for="edit-lastname">Last Name:</label>
+      <input type="text" id="edit-lastname" name="edit_last_name" required>
+
+      <label for="edit-email">Email Address:</label>
+      <input type="email" id="edit-email" name="edit_email" required>
+
+      <label for="edit-role">User Role:</label>
+      <select id="edit-role" name="edit_role" required>
+        <option value="admin">Admin</option>
+        <option value="regularUser">Regular User</option> <!-- Update the value here -->
+      </select>
+
+      <button type="button" onclick="submitEditUserForm()">Save Changes</button>
+    </form>
+  </div>
+
+  <script>
+    // Function to submit the edit user form
+    function submitEditUserForm() {
+      // Get the edited user information from the form
+      const editedUser = {
+        first_name: document.getElementById('edit-firstname').value,
+        last_name: document.getElementById('edit-lastname').value,
+        email: document.getElementById('edit-email').value,
+        role: document.getElementById('edit-role').value,
+      };
+      console.log(editedUser);
+      
+      // Make a request to update the user in the database
+      fetch('/api/editUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Add this line to set the Content-Type header
+        },
+        body: JSON.stringify(editedUser),
+      })
+        .then(response => response.json())
+        .then(result => {
+          if (result.success) {
+            alert('User updated successfully!');
+            // Redirect to adminOptions.html after a successful update
+            window.location.href = '/adminOptions.html';
+          } else {
+            alert('Error updating user. Please try again.');
+          }
+        })
+        .catch(error => {
+          console.error('Error updating user:', error);
+          alert('Internal Server Error. Please try again later.');
+        });
+    }
+  </script>
+
+</body>
+</html>

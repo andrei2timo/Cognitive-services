@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Options</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome, Admin!</h1>
+
+    <!-- View all users button -->
+    <button onclick="viewAllUsers()">View All Users</button>
+
+    <!-- User list container -->
+    <div id="userList"></div>
+
+    <!-- Add more admin options here as needed -->
+
+    <div class="toggle-btn">
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+  </div>
+
+  <script>
+    // Function to fetch and display all users
+    function viewAllUsers() {
+      fetch('/api/allUsers') // Assuming you have an endpoint to get all users
+        .then(response => response.json())
+        .then(users => {
+          const userListContainer = document.getElementById('userList');
+          userListContainer.innerHTML = '<h2>All Users</h2>';
+          
+          // Create a table to display users
+          const userTable = document.createElement('table');
+          userTable.classList.add('user-table');
+
+          // Create table header
+          const tableHeader = document.createElement('thead');
+          const headerRow = document.createElement('tr');
+          ['ID', 'First Name', 'Last Name', 'Email', 'Role', 'Actions'].forEach(headerText => {
+            const headerCell = document.createElement('th');
+            headerCell.textContent = headerText;
+            headerRow.appendChild(headerCell);
+          });
+          tableHeader.appendChild(headerRow);
+          userTable.appendChild(tableHeader);
+
+          // Create table body
+          const tableBody = document.createElement('tbody');
+          users.forEach(user => {
+            const row = document.createElement('tr');
+            ['id', 'first_name', 'last_name', 'email', 'role'].forEach(prop => {
+              const cell = document.createElement('td');
+              cell.textContent = user[prop];
+              row.appendChild(cell);
+            });
+
+            // Add an edit button
+            const editCell = document.createElement('td');
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.onclick = () => openEditUserModal(user);
+            editCell.appendChild(editButton);
+            row.appendChild(editCell);
+
+            tableBody.appendChild(row);
+          });
+          userTable.appendChild(tableBody);
+
+          userListContainer.appendChild(userTable);
+        })
+        .catch(error => {
+          console.error('Error fetching users:', error);
+        });
+    }
+
+    // Function to open the edit user modal in a separate window
+    function openEditUserModal(user) {
+      // Redirect to the editUser.html page with the user's email as a query parameter
+      window.location.href = `/editUser.html?email=${user.email}`;
+    }
+
+    // Function to logout (you can implement this based on your authentication mechanism)
+    function logout() {
+      // Redirect to logout endpoint or perform logout action
+      window.location.href = '/logout';
+    }
+  </script>
+</body>
+</html>
