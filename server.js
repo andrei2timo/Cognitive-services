@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
-
+const { spawn } = require('child_process');
 const app = express();
 const PORT = 3000;
 
@@ -158,7 +158,39 @@ app.post('/api/editUser', (req, res) => {
   });
 });
 
+// Use body-parser middleware
+app.use(bodyParser.json());
 
+app.post('/api/translate', async (req, res) => {
+  const { input_language, output_language, input_text } = req.body;
+
+  // Log the values to check if they are received correctly
+  console.log("Received request with values:", input_language, output_language, input_text);
+
+  // Execute the translation Python script
+  const pythonProcess = spawn('python', ['translate.py', input_language, output_language, input_text]);
+
+  // Collect data from the script's output
+  let translatedText = '';
+
+  pythonProcess.stdout.on('data', (data) => {
+    translatedText += data.toString();
+  });
+
+  // Handle script completion
+  pythonProcess.on('close', (code) => {
+    if (code === 0) {
+      try {
+        const result = JSON.parse(translatedText);
+        res.json({ translated_text: result });
+      } catch (error) {
+        res.status(500).json({ error: 'Invalid JSON format received from the translation script.' });
+      }
+    } else {
+      res.status(500).json({ error: 'Translation failed.' });
+    }
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
