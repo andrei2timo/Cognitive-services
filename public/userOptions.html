@@ -1,8 +1,8 @@
 <!-- userOptions.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Options</title>
   <link rel="stylesheet" href="styles.css">
@@ -13,54 +13,152 @@
     <div class="tabs">
       <div class="tab active" id="editTab">
         <h2>Speech Services</h2>
-        <div class="input-group">
-          <label for="languageInput">Language Input:</label>
-          <input type="text" id="languageInput" placeholder="Type your text" class="larger-input">
-        </div>
         <div class="language-selectors">
           <label for="selectInputLanguage">Select Input Language:</label>
           <select id="selectInputLanguage">
             <!-- Add language options dynamically based on your requirements -->
-            <option value="english">English</option>
-            <option value="spanish">Spanish</option>
+            <option value="ro-RO">Romanian</option>
+            <option value="es">Spanish</option>
+            <option value="it">Italian</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="en">English</option>
+            <option value="no">Norwegian</option>
+            <option value="zh-CN">Chinese (Simplified)</option>
+            <option value="ru">Russian</option>
             <!-- Add more languages as needed -->
           </select>
+        </div>
+
+        <div class="language-selectors">
+          <label for="selectOutputLanguage">Select Output Language:</label>
+          <select id="selectOutputLanguage">
+            <!-- Add language options dynamically based on your requirements -->
+            <option value="ro-RO">Romanian</option>
+            <option value="es">Spanish</option>
+            <option value="it">Italian</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="en">English</option>
+            <option value="no">Norwegian</option>
+            <option value="zh-CN">Chinese (Simplified)</option>
+            <option value="ru">Russian</option>
+            <!-- Add more languages as needed -->
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="languageInput">Language Input:</label>
+          <input type="text" id="languageInput" placeholder="Speak into your microphone" class="larger-input">
         </div>
         <div class="output-group">
           <label for="languageOutput">Translated Output:</label>
           <input type="text" id="languageOutput" placeholder="Translated text" class="larger-input">
         </div>
-        <div class="language-selectors">
-          <label for="selectOutputLanguage">Select Output Language:</label>
-          <select id="selectOutputLanguage">
-            <!-- Add language options dynamically based on your requirements -->
-            <option value="french">French</option>
-            <option value="german">German</option>
-            <!-- Add more languages as needed -->
-          </select>
-        </div>
         <div class="buttons">
-          <button onclick="pronunciationButtonClick()">Pronunciation</button>
+          <button onclick="startSpeechRecognition()">Start Speech Recognition</button>
+          <button onclick="stopSpeechRecognition()">Stop Speech Recognition</button>
           <button onclick="translationButtonClick()">Translation</button>
         </div>
       </div>
-      <!-- Add another tab if needed -->
-      <!-- <div class="tab" id="otherTab">
-        ... (similar structure)
-      </div> -->
     </div>
     <a href="/">Logout</a>
   </div>
+  
   <script>
-    function pronunciationButtonClick() {
-      // Add logic for pronunciation button click
-      alert('Pronunciation clicked!');
+    let recognition;
+    let isListening = false;
+    let capturedText = '';
+
+    function startSpeechRecognition() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert('Speech recognition is not supported in your browser.');
+        return;
+      }
+
+      recognition = new webkitSpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      recognition.onstart = function() {
+        isListening = true;
+      };
+
+      recognition.onresult = function(event) {
+        let interimTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            capturedText += event.results[i][0].transcript;
+          } else {
+            interimTranscript += event.results[i][0].transcript;
+          }
+        }
+
+        document.getElementById('languageInput').value = capturedText + interimTranscript;
+      };
+
+      recognition.onend = function() {
+        isListening = false;
+      };
+
+      recognition.onerror = function(event) {
+        alert('Error occurred in recognition: ' + event.error);
+      };
+
+      recognition.start();
     }
 
-    function translationButtonClick() {
-      // Add logic for translation button click
-      alert('Translation clicked!');
+    function stopSpeechRecognition() {
+      if (recognition) {
+        recognition.stop();
+      }
     }
+
+    async function translationButtonClick() {
+  // Start speech recognition if not already listening
+  if (!isListening) {
+    startSpeechRecognition();
+  }
+
+  // Get input values
+  const inputLanguage = document.getElementById('selectInputLanguage').value;
+  const outputLanguage = document.getElementById('selectOutputLanguage').value; // Add this line
+  const inputText = document.getElementById('languageInput').value;
+
+  // Debugging: Print language codes
+  console.log("Input Language:", JSON.stringify(inputLanguage));
+  console.log("Output Language:", JSON.stringify(outputLanguage)); // Add this line
+  console.log("Input Text:", inputText);
+
+  // Make a POST request to the translation endpoint
+  const response = await fetch('/api/translate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      input_language: inputLanguage,
+      output_language: outputLanguage, // Add this line
+      input_text: inputText,
+    }),
+  });
+
+  // Check if the request was successful
+  if (response.ok) {
+    // Parse the JSON response
+    const result = await response.json();
+
+    // Update the output field with the translated text
+    document.getElementById('languageOutput').value = result.translated_text;
+
+    // Log the translated text and target language
+    console.log("Translated Text:", result.translated_text);
+    console.log("Target Language:", result.target_language);
+  } else {
+    // Handle the case where the translation request failed
+    alert('Translation request failed.');
+  }
+}
   </script>
 </body>
 </html>
