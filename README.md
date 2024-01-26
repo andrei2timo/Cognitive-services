@@ -67,9 +67,6 @@ To access the admin panel:
 1. Log in with admin credentials.
 2. Navigate to the Admin section in the application.
 
-## Contributing
-
-Feel free to contribute by submitting bug reports, feature requests, or pull requests. Follow the guidelines in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 ## License
 
@@ -79,4 +76,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 - Thanks to Microsoft Azure for providing powerful Cognitive Services.
 - Special thanks to the open-source community for valuable contributions.
-
+- A sincere appreciation to recruiters who, in their skepticism, have been a driving force. Your doubt has motivated me to push forward and achieve great things, proving that I am capable of facing and overcoming any challenges. :D
