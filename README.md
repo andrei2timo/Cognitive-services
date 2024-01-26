@@ -10,6 +10,8 @@ This application combines various Microsoft Azure Cognitive Services, providing 
 - **Text Translation**: Translate text between multiple languages.
 - **GPT-4 Integration**: Harness the capabilities of the GPT-4 language model for natural language understanding and generation.
 - **Custom Vision**: Incorporate image recognition using Azure's Custom Vision service.
+- **User Authentication**: Users can log in and create accounts.
+- **Admin Panel**: Admins can view and perform operations in the database, including editing user names and assigning roles.
 
 ## Getting Started
 
@@ -17,6 +19,7 @@ This application combines various Microsoft Azure Cognitive Services, providing 
 
 - **Azure Account**: Obtain Azure subscription credentials and configure the necessary Cognitive Services.
 - **Python Environment**: Ensure you have Python installed for running the backend translation script.
+- **Database Setup**: Configure the database and ensure connectivity.
 
 ### Installation
 
@@ -37,6 +40,10 @@ This application combines various Microsoft Azure Cognitive Services, providing 
 
     - Set up environment variables or configuration files with Azure service credentials.
 
+4. Set up database credentials:
+
+    - Configure database credentials in the appropriate configuration files.
+
 ### Usage
 
 1. Start the application:
@@ -49,9 +56,16 @@ This application combines various Microsoft Azure Cognitive Services, providing 
 
     [http://localhost:3000](http://localhost:3000)
 
-3. Explore the different tabs for Speech-to-Text, Text Translation, GPT-4, and Custom Vision.
+3. Users can log in, create new accounts, and explore the cognitive service features.
 
-4. Input text or interact with the specified features and witness the combined power of Azure Cognitive Services.
+4. Admins can access the admin panel, manage users, and perform database operations.
+
+## Admin Panel
+
+To access the admin panel:
+
+1. Log in with admin credentials.
+2. Navigate to the Admin section in the application.
 
 ## Contributing
 
