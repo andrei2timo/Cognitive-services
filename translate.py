@@ -5,9 +5,9 @@ import json
 import sys
 
 def translation(input_language, output_language, input_text):
-    key = "c523af4573f24ab4b5f8e53646c79806"
-    endpoint = "https://api.cognitive.microsofttranslator.com/"
-    region = "eastus"
+    key = "YOUR API KEY"
+    endpoint = "YOUR ENDPOINT"
+    region = "YOUR REGION"
     credential = TranslatorCredential(key, region)
     text_translator = TextTranslationClient(endpoint=endpoint, credential=credential)
 
