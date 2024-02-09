@@ -8,9 +8,9 @@ import sys
 #print("Arguments:", sys.argv)
 
 def authWithBearer():
-    resourceID = "/subscriptions/d5998bf4-a9d3-4729-a539-79d0cbdf1c2a/resourceGroups/andrei-internal/providers/Microsoft.CognitiveServices/accounts/atimo-speechServices"
-    url = "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/oauth2/token?"
-    payload = 'grant_type=client_credentials&client_id=ad9307de-21a1-4e57-aa1b-2dc69e6ffae5&client_secret=IPY8Q~ekfU7C2dn~BDUI9EOeiPsKos3IAmkDWcXK&resource=https%3A%2F%2Fcognitiveservices.azure.com%2F'
+    resourceID = "YOUR SPEECH RESOURCE ID"
+    url = "YOUR AUTH MICROSOFT LOGIN WITH BEARER "
+    payload = 'grant_type=client_credentials&client_id={"CLIENT_ID}&client_secret={CLIENT_SECRET}&resource=https%3A%2F%2Fcognitiveservices.azure.com%2F'
     
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -24,7 +24,7 @@ def authWithBearer():
 
 def recognize_from_microphone():
     # This example requires environment variables named "SPEECH_KEY" and "SPEECH_REGION"
-    speech_config = speechsdk.SpeechConfig(auth_token=authWithBearer, region="eastus")
+    speech_config = speechsdk.SpeechConfig(auth_token=authWithBearer, region="SPEECH_REGION")
     speech_config.speech_recognition_language="en-US"
 
     audio_config = speechsdk.audio.AudioConfig(use_default_microphone=True)
